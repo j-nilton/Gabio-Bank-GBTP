@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",             /* Alvo ES2020 (Node.js moderno). */
+    "module": "commonjs",           /* CommonJS para Node. */
+    "rootDir": "./src",             /* Fonte em src/ */
+    "outDir": "./dist",             /* Saída em dist/ */
+    "strict": true,                 /* Ativar checagem estrita. */
+    "esModuleInterop": true,        /* Compatibilidade com imports CommonJS. */
+    "skipLibCheck": true,           /* Ignorar checagem de bibliotecas. */
+    "moduleResolution": "node",     /* Resolve módulos no padrão Node.js */
+    "types": ["node", "ws"]         /* Carregar definições de tipo de node e ws */
+  },
+  "include": ["src/**/*.ts"]
+}

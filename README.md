@@ -2,19 +2,41 @@
 
 ## Objetivo
 
-Este projeto tem como finalidade consolidar os conhecimentos sobre protocolos da camada de aplicação por meio da implementação de uma aplicação cliente-servidor baseada em WebSockets. A proposta é criar uma aplicação bancária simplificada utilizando um protocolo próprio denominado **GBTP** (Gábio Bank Transaction Protocol).
+Este projeto tem como finalidade consolidar os conhecimentos sobre protocolos da camada de aplicação por meio da implementação de uma aplicação cliente-servidor baseada em WebSockets. A proposta é criar uma aplicação bancária simplificada utilizando um protocolo próprio denominado **GBTP**.
+
+OBS: Este projeto contém SOMENTE o Servidor (`gabio-server`). Relacione o Cliente web da implementação do link (https://github.com/watusalen/gbtp-applayer) com o Servidor deste projeto para executar corretamente o código.
 
 ## Estrutura do Projeto
 
-- `/gabio-client`: Cliente web desenvolvido com HTML e TypeScript.
-- `/gabio-server`: Servidor implementado em Node.js com TypeScript.
-- `README.md`: Documentação completa do projeto e especificação do protocolo.
+```
+GBTP/
+└── gabio-server/
+├── node_modules/                     # Módulos instalados via npm
+├── src/                              # Código-fonte da aplicação
+│ ├── controllers/                    # Camada de controle (entry point da lógica)
+│ │ └── bank-controller.ts
+│ ├── models/                         # Definições de entidades e tipos
+│ │ └── account.ts
+│ ├── protocol/                       # Contratos e protocolos
+│ │ ├── entities/
+│ │ │ └── gbtp.ts
+│ │ └── i-message-protocol.ts
+│ ├── services/                       # Camada de serviços (regras de negócio)
+│ │ └── bank-service.ts
+│ └── ws/                             # Comunicação WebSocket
+│ └── websocket-handler.ts
+│ └── server.ts
+├── accounts.json                     # Dados de contas (mock)
+├── package-lock.json                 # Controle de versões exatas das dependências
+├── package.json                      # Configurações de dependências e scripts
+└── tsconfig.json                     # Arquivo de configuração do TypeScript
+```
 
 ## Protocolo GBTP
 
-O **GBTP** é um protocolo textual inspirado no CNET, baseado em pares `CHAVE:VALOR` separados por nova linha (`\n`). O formato é padronizado tanto para requisições quanto para respostas, permitindo parsing simplificado.
+O **GBTP** é um protocolo textual inspirado no CNET. O formato é padronizado tanto para requisições quanto para respostas, permitindo parsing simplificado.
 
-### Formato Comum de Requisição
+### Formato de Requisição
 
 | Campo           | Descrição                                                  |
 |------------------|-------------------------------------------------------------|
@@ -23,7 +45,7 @@ O **GBTP** é um protocolo textual inspirado no CNET, baseado em pares `CHAVE:VA
 | `TO_ACCOUNT_ID`  | Identificador da conta de destino (apenas para `TRANSFER`). |
 | `VALUE`          | Valor da transação (0 para `BALANCE`).                      |
 
-### Formato Comum de Resposta
+### Formato de Resposta
 
 | Campo     | Descrição                                                             |
 |------------|------------------------------------------------------------------------|
@@ -32,8 +54,6 @@ O **GBTP** é um protocolo textual inspirado no CNET, baseado em pares `CHAVE:VA
 | `BALANCE`  | Saldo atualizado da conta principal (mesmo em caso de erro, se aplicável). |
 
 ## Operações Exemplificadas
-
-### Consulta de Saldo (`BALANCE`)
 
 ```
 Requisição:
@@ -101,40 +121,14 @@ MESSAGE:Conta de destino inexistente
 BALANCE:225.00  
 ```
 
-## ⚙️ Requisitos de Implementação
+## Como executar
 
-- **Cliente Web**:
-  - Desenvolvido com HTML + TypeScript.
-  - Interface simples via WebSocket para enviar mensagens no formato GBTP e exibir as respostas.
-  
-- **Servidor**:
-  - Implementado com Node.js + TypeScript.
-  - Mantém um mapa em memória (`Map<ID, saldo>`) para as contas.
-  - Processa as requisições GBTP e responde conforme a especificação.
+Execute os seguintes comandos (um comando por vez) no terminal:
 
-- **Inicialização**:
-  - Criar contas fictícias (ex.: `1001`, `1002`, `1003`) com saldos iniciais.
-
-- **Validações Obrigatórias**:
-  - Todos os campos devem estar presentes.
-  - Valores devem ser não-negativos.
-  - Contas de origem e destino devem existir (e ser distintas, no caso de transferência).
-  - Validação de saldo suficiente para `WITHDRAW` e `TRANSFER`.
-
-## 👥 Organização dos Grupos
-
-- Os estudantes devem formar grupos de **3 integrantes**.
-- Cada grupo deverá escolher entre implementar o **cliente (frontend)** ou o **servidor (backend)**.
-- A escolha será feita com base em uma ordenação aleatória, respeitando o limite de **5 grupos por função**.
-
-## 📅 Prazo de Entrega
-
-A entrega final está prevista para **04 de junho de 2025** e deve conter:
-
-1. Código-fonte completo de `gabio-client` e `gabio-server`;
-2. Arquivo `README.md` com a documentação detalhada do protocolo GBTP;
-3. Instruções claras de execução (ex.: `npm install`, `npm start`, etc).
+```
+cd gabio-server
+npm i
+npm run dev
+```
 
 ---
-
-**© Disciplina de Redes de Computadores – Maio de 2025**

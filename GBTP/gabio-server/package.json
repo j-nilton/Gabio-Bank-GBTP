@@ -1,0 +1,21 @@
+{
+  "name": "gbtp-backend",
+  "version": "1.0.0",
+  "description": "Backend GBTP (Gabio Bank Transaction Protocol) em TypeScript via WebSocket",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/server.js",
+    "dev": "ts-node-dev --respawn src/server.ts"
+  },
+  "dependencies": {
+    "ws": "^8.18.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.1",
+    "@types/ws": "^8.18.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  },
+  "license": "ISC"
+}
